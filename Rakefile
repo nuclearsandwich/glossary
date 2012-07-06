@@ -17,4 +17,12 @@ task :compile do
   File.write "index.html", layout.render
 end
 
+task :deploy => :compile do
+  if `git status` =~ /working directory clean/
+    exec %(git push origin master:gh-pages)
+  else
+    puts "Please commit changes before deploying."
+  end
+end
+
 task :default => :compile
